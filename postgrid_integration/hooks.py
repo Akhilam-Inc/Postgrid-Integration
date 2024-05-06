@@ -30,6 +30,10 @@ app_license = "MIT"
 
 # include js in doctype views
 # doctype_js = {"doctype" : "public/js/doctype.js"}
+doctype_js = {
+    "Purchase Invoice" : "custom_scripts/purchase_invoice.js",
+    "Payment Entry" : "custom_scripts/payment_entry.js",
+}
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
@@ -50,7 +54,20 @@ app_license = "MIT"
 
 # automatically create page for each record of this doctype
 # website_generators = ["Web Page"]
+fixtures=[
+    
+     
+    {"dt": "Custom Field", "filters": [
+		[
+			"name", "in", [
+				"Purchase Invoice-custom_postgrid_cheque_reference","Payment Entry-custom_postgrid_cheque_reference","Payment Entry-custom_postgrid_cheque_status"
+			]
+        ]
+    ]},
+    	
 
+
+]
 # Jinja
 # ----------
 
