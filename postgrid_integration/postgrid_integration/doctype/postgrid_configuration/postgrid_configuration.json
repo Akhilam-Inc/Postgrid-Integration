@@ -1,0 +1,76 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-05-06 11:56:30.794182",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "enable",
+  "section_break_dicym",
+  "postgrid_url",
+  "postgrid_api_key",
+  "column_break_lb7ff",
+  "log_deletion_interval"
+ ],
+ "fields": [
+  {
+   "default": "0",
+   "fieldname": "enable",
+   "fieldtype": "Check",
+   "label": "Enable"
+  },
+  {
+   "fieldname": "section_break_dicym",
+   "fieldtype": "Section Break"
+  },
+  {
+   "depends_on": "eval:doc.enable == 1",
+   "fieldname": "postgrid_url",
+   "fieldtype": "Data",
+   "label": "Postgrid URL",
+   "mandatory_depends_on": "eval:doc.enable == 1"
+  },
+  {
+   "depends_on": "eval:doc.enable == 1",
+   "fieldname": "postgrid_api_key",
+   "fieldtype": "Data",
+   "label": "Postgrid API Key",
+   "mandatory_depends_on": "eval:doc.enable == 1"
+  },
+  {
+   "fieldname": "column_break_lb7ff",
+   "fieldtype": "Column Break"
+  },
+  {
+   "depends_on": "eval:doc.enable == 1",
+   "fieldname": "log_deletion_interval",
+   "fieldtype": "Int",
+   "label": "Log deletion interval"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "issingle": 1,
+ "links": [],
+ "modified": "2024-05-06 11:57:18.396317",
+ "modified_by": "Administrator",
+ "module": "Postgrid Integration",
+ "name": "Postgrid Configuration",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
