@@ -1,0 +1,18 @@
+include MANIFEST.in
+include requirements.txt
+include *.json
+include *.md
+include *.py
+include *.txt
+recursive-include postgrid_integration *.css
+recursive-include postgrid_integration *.csv
+recursive-include postgrid_integration *.html
+recursive-include postgrid_integration *.ico
+recursive-include postgrid_integration *.js
+recursive-include postgrid_integration *.json
+recursive-include postgrid_integration *.md
+recursive-include postgrid_integration *.png
+recursive-include postgrid_integration *.py
+recursive-include postgrid_integration *.svg
+recursive-include postgrid_integration *.txt
+recursive-exclude postgrid_integration *.pyc
