@@ -11,8 +11,8 @@ class PostgridLog(Document):
 
 
 def delete_postgrid_log():
-	postgrid_conf = frappe.db.get_value("Postgrid Configuration", "Postgrid Configuration", ["log_deletion_interval","last_deleted_on"], as_dict=True)
-	if postgrid_conf["last_deleted_on"] and postgrid_conf["log_deletion_interval"]:
+	postgrid_conf = frappe.db.get_value("Postgrid Configuration", "Postgrid Configuration", ["log_deletion_interval","last_deleted_on", "enable"], as_dict=True)
+	if postgrid_conf["enable"] and postgrid_conf["last_deleted_on"] and postgrid_conf["log_deletion_interval"]:
 		last_updated_date = datetime.strptime(postgrid_conf["last_deleted_on"], '%Y-%m-%d')
 		today_date = datetime.strptime(today(), '%Y-%m-%d')
 		if int((last_updated_date - today_date).days) == int(postgrid_conf["log_deletion_interval"]):
