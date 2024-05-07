@@ -10,19 +10,23 @@
  "field_order": [
   "status",
   "column_break_ht5xt",
-  "purchase_invoice",
-  "payment_entry",
+  "voucher_type",
+  "voucher_name",
   "section_break_u5nkj",
   "postgrid_cheque_reference",
   "column_break_ayrof",
   "postgrid_cheque_status",
   "section_break_ukyty",
-  "error_code"
+  "payload",
+  "column_break_sna6",
+  "response",
+  "no_of_retry"
  ],
  "fields": [
   {
    "fieldname": "status",
    "fieldtype": "Select",
+   "in_list_view": 1,
    "label": "Status",
    "options": "\nSuccess\nFailure"
   },
@@ -31,25 +35,14 @@
    "fieldtype": "Column Break"
   },
   {
-   "fieldname": "purchase_invoice",
-   "fieldtype": "Link",
-   "label": "Purchase Invoice",
-   "options": "Purchase Invoice"
-  },
-  {
-   "fieldname": "payment_entry",
-   "fieldtype": "Link",
-   "label": "Payment Entry",
-   "options": "Payment Entry"
-  },
-  {
    "fieldname": "section_break_u5nkj",
    "fieldtype": "Section Break"
   },
   {
    "fieldname": "postgrid_cheque_reference",
    "fieldtype": "Data",
-   "label": "Postgrid Cheque Reference"
+   "label": "Postgrid Cheque Reference",
+   "read_only": 1
   },
   {
    "fieldname": "column_break_ayrof",
@@ -58,22 +51,53 @@
   {
    "fieldname": "postgrid_cheque_status",
    "fieldtype": "Data",
-   "label": "Postgrid Cheque Status"
+   "label": "Postgrid Cheque Status",
+   "read_only": 1
   },
   {
    "fieldname": "section_break_ukyty",
    "fieldtype": "Section Break"
   },
   {
+   "fieldname": "column_break_sna6",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "response",
+   "fieldtype": "Code",
+   "label": "Response",
+   "read_only": 1
+  },
+  {
+   "fieldname": "voucher_type",
+   "fieldtype": "Link",
+   "label": "Voucher Type",
+   "options": "DocType"
+  },
+  {
+   "fieldname": "voucher_name",
+   "fieldtype": "Dynamic Link",
+   "label": "Voucher Name",
+   "options": "voucher_type"
+  },
+  {
    "depends_on": "eval:doc.status == \"Failure\"",
-   "fieldname": "error_code",
-   "fieldtype": "Long Text",
-   "label": "Error Code"
+   "fieldname": "payload",
+   "fieldtype": "Text",
+   "label": "Payload",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "no_of_retry",
+   "fieldtype": "Int",
+   "label": "No.of Retry",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-05-06 12:38:47.373217",
+ "modified": "2024-05-07 18:55:09.860789",
  "modified_by": "Administrator",
  "module": "Postgrid Integration",
  "name": "Postgrid Log",
