@@ -9,6 +9,7 @@
  "engine": "InnoDB",
  "field_order": [
   "status",
+  "webhook",
   "column_break_ht5xt",
   "voucher_type",
   "voucher_name",
@@ -93,11 +94,18 @@
    "fieldtype": "Int",
    "label": "No.of Retry",
    "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "webhook",
+   "fieldtype": "Check",
+   "label": "Webhook",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-05-07 18:55:09.860789",
+ "modified": "2024-05-08 13:06:48.282660",
  "modified_by": "Administrator",
  "module": "Postgrid Integration",
  "name": "Postgrid Log",

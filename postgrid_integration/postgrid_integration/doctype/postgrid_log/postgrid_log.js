@@ -3,7 +3,7 @@
 
 frappe.ui.form.on('Postgrid Log', {
 	refresh: function(frm) {
-		if(frm.doc.status == "Failure"){
+		if(frm.doc.status == "Failure" && !frm.doc.webhook){
 			frm.add_custom_button("Retry", function() {
 				frappe.call({
 					method: "postgrid_integration.api.create_postgrid_payment",

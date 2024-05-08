@@ -5,6 +5,8 @@ import frappe
 from frappe.model.document import Document
 from datetime import datetime
 from frappe.utils import today
+from postgrid_integration.utils import send_request, get_payload
+from postgrid_integration.constants import get_webhook_headers, get_headers
 
 class PostgridConfiguration(Document):
 	def validate(self):
@@ -16,3 +18,30 @@ class PostgridConfiguration(Document):
 
 		if not self.log_deletion_interval:
 			self.last_deleted_on = ""
+
+
+		if (not doc and self.enable) or (not doc.enable and self.enable):
+			webhook_list = send_request(frappe._dict({
+								"method" : "GET",
+								"url" : f"{self.postgrid_url}/print-mail/v1/webhooks",
+								"headers": get_webhook_headers(),
+								"webhook": True,
+								"throw_message": "We are unable to fetch webhook list",
+			}), webhook=True)
+
+			if webhook_list.get("data"):
+				webhook_created = False
+				for row in webhook_list.get("data"):
+					if row.get("enabled") and "cheque.updated" in row.get("enabledEvents") and "postgrid_integration.api.cheque_update" in row.get("url"):
+						webhook_created = True
+
+				if not webhook_created:
+					args = frappe._dict({
+						"method" : "POST",
+						"url" : f"{self.postgrid_url}/print-mail/v1/webhooks",
+						"headers": get_headers(),
+						"webhook": True,
+						"payload": get_payload(create_webhook=True, url=frappe.request.origin),
+						"throw_message": "We are unable to create webhook",
+					})
+					send_request(args, webhook=True)

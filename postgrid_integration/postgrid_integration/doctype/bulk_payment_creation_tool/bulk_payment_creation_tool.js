@@ -3,12 +3,8 @@
 
 frappe.ui.form.on('Bulk Payment Creation Tool', {
 	refresh: function(frm) {
-		frm.add_custom_button("Get Purchase Invoices", function(){
-			console.log("in button event") 
-		});
-
 		frm.add_custom_button("Generate Payment", function(){
-			console.log("in button event")    
+			console.log("in button event")
 		});
 	}
 });
