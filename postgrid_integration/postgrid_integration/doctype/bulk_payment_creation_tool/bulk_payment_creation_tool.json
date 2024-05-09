@@ -11,12 +11,14 @@
   "column_break_xpzv5",
   "to_date",
   "section_break_19exy",
+  "get_purchase_invoice",
   "items",
   "section_break_1wu2s",
   "total_invoices",
   "column_break_efhpo",
   "success_invoices",
-  "failed_invoices"
+  "failed_invoices",
+  "invalid_invoices"
  ],
  "fields": [
   {
@@ -50,7 +52,8 @@
   {
    "fieldname": "total_invoices",
    "fieldtype": "Int",
-   "label": "Total Invoices"
+   "label": "Total Invoices",
+   "read_only": 1
   },
   {
    "fieldname": "column_break_efhpo",
@@ -59,18 +62,32 @@
   {
    "fieldname": "success_invoices",
    "fieldtype": "Int",
-   "label": "Success Invoices "
+   "label": "Success Invoices ",
+   "read_only": 1
   },
   {
    "fieldname": "failed_invoices",
    "fieldtype": "Int",
-   "label": "Failed Invoices"
+   "label": "Failed Invoices",
+   "read_only": 1
+  },
+  {
+   "fieldname": "get_purchase_invoice",
+   "fieldtype": "Button",
+   "label": "Get Purchase Invoice",
+   "options": "get_purchase_invoice"
+  },
+  {
+   "fieldname": "invalid_invoices",
+   "fieldtype": "Text",
+   "hidden": 1,
+   "label": "Invalid Invoices"
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-05-06 12:05:15.920104",
+ "modified": "2024-05-09 15:51:06.170653",
  "modified_by": "Administrator",
  "module": "Postgrid Integration",
  "name": "Bulk Payment Creation Tool",

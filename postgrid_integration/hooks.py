@@ -31,10 +31,12 @@ app_license = "MIT"
 # include js in doctype views
 # doctype_js = {"doctype" : "public/js/doctype.js"}
 doctype_js = {
-    "Purchase Invoice" : "custom_scripts/purchase_invoice.js",
-    "Payment Entry" : "custom_scripts/payment_entry.js",
+	"Purchase Invoice" : "custom_scripts/js/purchase_invoice.js",
+	"Payment Entry" : "custom_scripts/js/payment_entry.js",
 }
-# doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
+doctype_list_js = {
+						"Purchase Invoice" : "custom_scripts/js/purchase_invoice_list.js"
+				}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
 
@@ -55,16 +57,16 @@ doctype_js = {
 # automatically create page for each record of this doctype
 # website_generators = ["Web Page"]
 fixtures=[
-    
-     
-    {"dt": "Custom Field", "filters": [
+	
+	 
+	{"dt": "Custom Field", "filters": [
 		[
 			"name", "in", [
-				"Purchase Invoice-custom_postgrid_cheque_reference","Payment Entry-custom_postgrid_cheque_reference","Payment Entry-custom_postgrid_cheque_status"
+				"Purchase Invoice-custom_postgrid_cheque_reference","Payment Entry-custom_postgrid_cheque_reference","Payment Entry-custom_postgrid_cheque_status","Bank Account-custom_postgrid_bank_account_id"
 			]
-        ]
-    ]},
-    	
+		]
+	]},
+		
 
 
 ]
@@ -135,34 +137,32 @@ fixtures=[
 # ---------------
 # Hook on document methods and events
 
-# doc_events = {
-#	"*": {
-#		"on_update": "method",
-#		"on_cancel": "method",
-#		"on_trash": "method"
-#	}
-# }
+doc_events = {
+	"Purchase Invoice": {
+		"before_submit": "postgrid_integration.custom_scripts.py.purchase_invoice.before_submit",
+	}
+}
 
 # Scheduled Tasks
 # ---------------
 
-# scheduler_events = {
-#	"all": [
-#		"postgrid_integration.tasks.all"
-#	],
-#	"daily": [
-#		"postgrid_integration.tasks.daily"
-#	],
-#	"hourly": [
-#		"postgrid_integration.tasks.hourly"
-#	],
-#	"weekly": [
-#		"postgrid_integration.tasks.weekly"
-#	],
-#	"monthly": [
-#		"postgrid_integration.tasks.monthly"
-#	],
-# }
+scheduler_events = {
+	# "all": [
+	# 	"postgrid_integration.tasks.all"
+	# ],
+	"daily": [
+		"postgrid_integration.postgrid_integration.doctype.postgrid_log.postgrid_log.delete_postgrid_log"
+	],
+	# "hourly": [
+	# 	"postgrid_integration.tasks.hourly"
+	# ],
+	# "weekly": [
+	# 	"postgrid_integration.tasks.weekly"
+	# ],
+	# "monthly": [
+	# 	"postgrid_integration.tasks.monthly"
+	# ],
+}
 
 # Testing
 # -------

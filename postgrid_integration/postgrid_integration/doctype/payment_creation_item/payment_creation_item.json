@@ -8,7 +8,8 @@
  "field_order": [
   "purchase_invoice",
   "amount",
-  "status"
+  "status",
+  "response"
  ],
  "fields": [
   {
@@ -16,25 +17,36 @@
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Purchase Invoice",
-   "options": "Purchase Invoice"
+   "options": "Purchase Invoice",
+   "read_only": 1
   },
   {
    "fieldname": "amount",
    "fieldtype": "Currency",
    "in_list_view": 1,
-   "label": "Amount"
+   "label": "Amount",
+   "read_only": 1
   },
   {
    "fieldname": "status",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "Status"
+   "label": "Status",
+   "read_only": 1
+  },
+  {
+   "fieldname": "response",
+   "fieldtype": "Data",
+   "ignore_xss_filter": 1,
+   "in_list_view": 1,
+   "label": "Response",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-05-06 12:02:49.699786",
+ "modified": "2024-05-09 11:16:11.819007",
  "modified_by": "Administrator",
  "module": "Postgrid Integration",
  "name": "Payment Creation Item",
