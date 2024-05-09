@@ -57,24 +57,24 @@ def cheque_update(**args):
 	try:
 		data = args["data"]
 		if payment_entry := frappe.get_all("Payment Entry",{"custom_postgrid_cheque_reference": data.get("id")}, pluck="name"):
-			log_name = create_response_log(frappe._dict({
-							"status": "Success",
-							"voucher_type": "Payment Entry",
-							"voucher_name": payment_entry[0],
-							"response": args,
-							"webhook": 1,
-							"postgrid_cheque_reference": data.get("id"),
-							"postgrid_cheque_status": data.get("status"),
-						}))
-
 			frappe.db.set_value("Payment Entry", payment_entry[0], "custom_postgrid_cheque_status", data.get("status"))
 			if data.get("status") == "completed":
 				doc = frappe.get_doc("Payment Entry", payment_entry[0])
+				doc.save(ignore_permissions=True)
 				doc.submit()
 			if data.get("status") == "cancelled":
 				frappe.delete_doc("Payment Entry", payment_entry[0], ignore_permissions=True)
 				if purchase_invoice := frappe.get_all("Purchase Invoice",{"custom_postgrid_cheque_reference": data.get("id")}, pluck="name"):
 					frappe.db.sql(f'Update `tabPurchase Invoice` set custom_postgrid_cheque_reference="" where name="{purchase_invoice[0]}"')
+			log_name = create_response_log(frappe._dict({
+					"status": "Success",
+					"voucher_type": "Purchase Invoice",
+					"voucher_name": purchase_invoice[0],
+					"response": args,
+					"webhook": 1,
+					"postgrid_cheque_reference": data.get("id"),
+					"postgrid_cheque_status": data.get("status"),
+				}))
 
 			frappe.db.commit()
 	
