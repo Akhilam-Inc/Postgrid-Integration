@@ -79,5 +79,5 @@ def cheque_update(**args):
 			frappe.db.commit()
 	
 	except Exception as e:
-		frappe.log_error("cheque_update", str(e))
+		frappe.log_error("cheque_update", str(frappe.get_traceback()))
 

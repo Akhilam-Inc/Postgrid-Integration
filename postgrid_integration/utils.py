@@ -30,7 +30,7 @@ def create_response_log(log_details):
 							"postgrid_cheque_status": log_details.get("postgrid_cheque_status"),
 							"webhook": log_details.get("webhook") or 0,
 
-	}).insert()
+	}).insert(ignore_permissions=True)
 	frappe.db.commit()
 	return log.name
 
@@ -94,4 +94,4 @@ def get_payload(company_address=None, vendor_address=None, company=None, amount=
 				amount={amount*100}&\
 				memo={quote(memo)}'
 
-	return payload
+	return payload.replace('\t', '')
