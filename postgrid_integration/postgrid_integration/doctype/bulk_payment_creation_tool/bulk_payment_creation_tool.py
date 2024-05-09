@@ -6,6 +6,12 @@ from frappe.model.document import Document
 from postgrid_integration.api import create_postgrid_payment
 
 class BulkPaymentCreationTool(Document):
+	def validate(self):
+		doc = self.get_doc_before_save()
+		if doc.invalid_invoices and self.invalid_invoices:
+			self.invalid_invoices = ""
+
+
 	@frappe.whitelist()
 	def get_purchase_invoice(self):
 		self.items = []

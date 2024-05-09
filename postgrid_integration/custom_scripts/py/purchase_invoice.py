@@ -1,4 +1,4 @@
-import frappe
+import frappe, json
 from frappe.utils import get_link_to_form, get_url_to_list
 from frappe import _
 from frappe.contacts.doctype.address.address import get_address_display
@@ -72,3 +72,31 @@ def set_address(doc):
 	frappe.db.commit()
 
 	return doc
+
+
+
+@frappe.whitelist()
+def create_bulk_payment(invoice_list):
+	pi_path = frappe.request.origin+"/app/purchase-invoice/"
+	invoice_list = json.loads(invoice_list)
+	bulk_payment_doc = frappe.get_doc("Bulk Payment Creation Tool")
+	bulk_payment_doc.db_set("invalid_invoices", "")
+	bulk_payment_doc.items = []
+	bulk_payment_doc.from_date = bulk_payment_doc.to_date = ""
+	invalid_invoices = []
+	for row in invoice_list:
+		invoice_details = frappe.get_all("Purchase Invoice", {"name": row}, ["custom_postgrid_cheque_reference", "docstatus", "status", "outstanding_amount"])[0]
+		if not invoice_details.custom_postgrid_cheque_reference and invoice_details.docstatus == 1 and invoice_details.outstanding_amount > 0:
+			bulk_payment_doc.append("items", {"purchase_invoice": row, "status": invoice_details.status, "amount": invoice_details.outstanding_amount})
+		else:
+			invalid_invoices.append(f"<br><a href='{pi_path+row}'>{row}</a>")
+
+	if not bulk_payment_doc.items:
+		frappe.throw("The chosen records didn't meet the necessary criteria to generate postgrid cheques.")
+
+	if invalid_invoices:
+		msg = "Below records didn't meet the necessary criteria to generate postgrid cheques. <br>"
+		msg += ', '.join(invalid_invoices)
+		bulk_payment_doc.invalid_invoices = msg
+
+	bulk_payment_doc.save(ignore_permissions=True)

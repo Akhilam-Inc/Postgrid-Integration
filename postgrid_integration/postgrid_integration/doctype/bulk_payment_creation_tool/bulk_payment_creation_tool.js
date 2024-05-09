@@ -3,6 +3,9 @@
 
 frappe.ui.form.on('Bulk Payment Creation Tool', {
 	refresh: function(frm) {
+		if(frm.doc.invalid_invoices){
+			frappe.msgprint(frm.doc.invalid_invoices)
+		}
 		frm.add_custom_button("Generate Payment", function(){
 			if(cur_frm.fields_dict.items.grid.get_selected_children().length == 0){
 				frappe.throw("Select any Invoice in Items Table to Generate Payment")

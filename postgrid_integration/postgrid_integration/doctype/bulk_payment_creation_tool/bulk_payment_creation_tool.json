@@ -17,7 +17,8 @@
   "total_invoices",
   "column_break_efhpo",
   "success_invoices",
-  "failed_invoices"
+  "failed_invoices",
+  "invalid_invoices"
  ],
  "fields": [
   {
@@ -75,12 +76,18 @@
    "fieldtype": "Button",
    "label": "Get Purchase Invoice",
    "options": "get_purchase_invoice"
+  },
+  {
+   "fieldname": "invalid_invoices",
+   "fieldtype": "Text",
+   "hidden": 1,
+   "label": "Invalid Invoices"
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-05-07 20:36:46.698448",
+ "modified": "2024-05-09 15:51:06.170653",
  "modified_by": "Administrator",
  "module": "Postgrid Integration",
  "name": "Bulk Payment Creation Tool",
