@@ -13,7 +13,7 @@ def create_postgrid_payment(name, retry=False, raise_throw=False):
 			frappe.throw(f'Postgrid Cheque Reference is already generated for this invoice {get_link_to_form("Purchase Invoice", doc.name)}')
 		raise Exception(f'Postgrid Cheque Reference is already generated for this invoice {get_link_to_form("Purchase Invoice", doc.name)}')
 	validate_mandatory_fields(doc=doc,throw= False if raise_throw else True, raise_throw=raise_throw)
-	if bank_acc_doc := frappe.db.get_value("Bank Account",{"is_company_account": 1,"company": doc.company, "disabled": 0}, ["name","account","postgrid_bank_account_id"], as_dict=1):
+	if bank_acc_doc := frappe.db.get_value("Bank Account",{"is_company_account": 1,"company": doc.company}, ["name","account","postgrid_bank_account_id"], as_dict=1):
 		args = frappe._dict({
 					"method" : "POST",
 					"url" : f"{get_url()}/print-mail/v1/cheques",
