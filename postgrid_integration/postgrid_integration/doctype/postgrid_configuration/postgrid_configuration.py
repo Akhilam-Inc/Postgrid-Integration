@@ -24,7 +24,7 @@ class PostgridConfiguration(Document):
 			webhook_list = send_request(frappe._dict({
 								"method" : "GET",
 								"url" : f"{self.postgrid_url}/print-mail/v1/webhooks",
-								"headers": get_webhook_headers(),
+								"headers": get_webhook_headers(postgrid_api_key=self.postgrid_api_key),
 								"webhook": True,
 								"throw_message": "We are unable to fetch webhook list",
 			}), webhook=True)
