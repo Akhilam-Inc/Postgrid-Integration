@@ -3,7 +3,7 @@ from frappe.utils import get_link_to_form, get_url_to_list
 from frappe import _
 from frappe.contacts.doctype.address.address import get_address_display
 
-def validate_mandatory_fields(doc, throw=False):
+def validate_mandatory_fields(doc, throw=False, raise_throw=False):
 	set_address(doc)
 
 	mandatory_flag = False
@@ -25,6 +25,9 @@ def validate_mandatory_fields(doc, throw=False):
 		mandatory_flag = True
 		msg += f'Company must have Bank Account.<br>Setup Bank Account for Company from here <a href={get_url_to_list("Bank Account")}>Bank Account</a><br>'
 		
+
+	if raise_throw and mandatory_flag:
+		raise Exception(msg)
 
 	if throw and mandatory_flag:
 		frappe.throw(msg)
@@ -48,7 +51,6 @@ def validate_mandatory_fields(doc, throw=False):
 
 @frappe.whitelist()
 def before_submit(doc, method):
-	print("ignore_postgrid_validation", doc.get("ignore_postgrid_validation"))
 	if not doc.get("ignore_postgrid_validation"):
 		validate_mandatory_fields(doc)
 

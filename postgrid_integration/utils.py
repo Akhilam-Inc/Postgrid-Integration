@@ -34,7 +34,7 @@ def create_response_log(log_details):
 	frappe.db.commit()
 	return log.name
 
-def send_request(args, webhook=False):
+def send_request(args, webhook=False, raise_throw=False):
 	response = requests.request(args.method, args.url, headers=args.headers, data=args.payload)
 	data = frappe._dict(json.loads(response.text))
 	log_name = create_response_log(frappe._dict({
@@ -57,6 +57,8 @@ def send_request(args, webhook=False):
 		return data.get("id"), data.get("status")
 
 	else:
+		if raise_throw:
+			raise Exception(args.get("throw_message"))
 		if not webhook:
 			frappe.throw(args.get("throw_message") or data.get("error").get("message"))
 		frappe.msgprint(args.get("throw_message"))

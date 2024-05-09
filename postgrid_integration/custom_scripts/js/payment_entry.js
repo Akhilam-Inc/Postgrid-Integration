@@ -7,7 +7,7 @@ frappe.ui.form.on('Payment Entry', {
 				__("This is a postgrid payment and cannot be edited it will auto submit once completed.")
 			);
 			frm.add_custom_button("View Cheque", function(){
-				frappe.msgprint("in view Cheque button")
+				window.open(`https://dashboard.postgrid.com/dashboard/cheques/${frm.doc.custom_postgrid_cheque_reference}`, '_blank');
 			});
 
 			frm.refresh_fields()
