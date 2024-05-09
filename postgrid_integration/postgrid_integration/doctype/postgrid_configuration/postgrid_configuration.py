@@ -39,7 +39,7 @@ class PostgridConfiguration(Document):
 					args = frappe._dict({
 						"method" : "POST",
 						"url" : f"{self.postgrid_url}/print-mail/v1/webhooks",
-						"headers": get_headers(),
+						"headers": get_headers(postgrid_api_key=self.postgrid_api_key),
 						"webhook": True,
 						"payload": get_payload(create_webhook=True, url=frappe.request.origin),
 						"throw_message": "We are unable to create webhook",
