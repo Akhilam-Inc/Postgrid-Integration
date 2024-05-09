@@ -94,4 +94,4 @@ def get_payload(company_address=None, vendor_address=None, company=None, amount=
 				amount={amount*100}&\
 				memo={quote(memo)}'
 
-	return payload.replace('\t', '')
+	return payload

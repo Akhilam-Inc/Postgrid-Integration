@@ -29,7 +29,6 @@ class BulkPaymentCreationTool(Document):
 
 @frappe.whitelist()
 def process_bulk_payment(invoice_list):
-	print(invoice_list)
 	success = 0
 	failed = 0
 	success_msg = '<span style="color: green;font-weight: bold;">Success</span>'
@@ -40,14 +39,14 @@ def process_bulk_payment(invoice_list):
 		try:
 			create_postgrid_payment(name=row.get("purchase_invoice"), raise_throw=True)
 			success += 1
-			frappe.set_value("Payment Creation Item", row.get("name"), "response", success_msg)
+			frappe.db.set_value("Payment Creation Item", row.get("name"), "response", success_msg)
 		except Exception as e:
 			frappe.log_error("process_bulk_payment", str(frappe.get_traceback()))
-			frappe.set_value("Payment Creation Item", row.get("name"), "response", failed_msg)
+			frappe.db.set_value("Payment Creation Item", row.get("name"), "response", failed_msg)
 			failed += 1
 
-	return{
-				"success": success,
-				"failure": failed,
-				"total": total
-	}
+
+	frappe.set_value("Bulk Payment Creation Tool","Bulk Payment Creation Tool","total_invoices", total)
+	frappe.set_value("Bulk Payment Creation Tool","Bulk Payment Creation Tool","success_invoices", success)
+	frappe.set_value("Bulk Payment Creation Tool","Bulk Payment Creation Tool","failed_invoices", failed)
+
