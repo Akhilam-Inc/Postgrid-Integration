@@ -32,6 +32,5 @@ def create_payment_entry(args):
 			"custom_postgrid_cheque_reference": args.postgrid_cheque_reference
 		})
 
-	
-	doc.validate()
+	# doc.validate()
 	doc.insert()

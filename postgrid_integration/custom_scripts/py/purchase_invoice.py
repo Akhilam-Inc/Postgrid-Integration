@@ -16,7 +16,7 @@ def validate_mandatory_fields(doc, throw=False, raise_throw=False):
 		mandatory_flag = True
 		msg += f'Company must have Billing Address.<br> Setup Address for Company from here {get_link_to_form("Company", doc.company)}<br>'
 	
-	if bank_acc_doc := frappe.db.get_value("Bank Account",{"is_company_account": 1,"company": doc.company}, ["name","postgrid_bank_account_id"], as_dict=1):
+	if bank_acc_doc := frappe.db.get_value("Bank Account",{"is_company_account": 1,"company": doc.company, "postgrid_bank_account_id":["!=", ""], "disabled":0}, ["name","postgrid_bank_account_id"], as_dict=1):
 		if not bank_acc_doc.postgrid_bank_account_id:
 			mandatory_flag = True
 			msg += f'Company must have Postgrid Bank Account ID.<br> Setup Postgrid Bank Account ID for Bank Account from here {get_link_to_form("Bank Account", bank_acc_doc.name)}<br>'

@@ -13,7 +13,7 @@ def create_postgrid_payment(name, retry=False, raise_throw=False):
 			frappe.throw(f'Postgrid Cheque Reference is already generated for this invoice {get_link_to_form("Purchase Invoice", doc.name)}')
 		raise Exception(f'Postgrid Cheque Reference is already generated for this invoice {get_link_to_form("Purchase Invoice", doc.name)}')
 	validate_mandatory_fields(doc=doc,throw= False if raise_throw else True, raise_throw=raise_throw)
-	if bank_acc_doc := frappe.db.get_value("Bank Account",{"is_company_account": 1,"company": doc.company}, ["name","account","postgrid_bank_account_id"], as_dict=1):
+	if bank_acc_doc := frappe.db.get_value("Bank Account",{"is_company_account": 1,"company": doc.company, "postgrid_bank_account_id":["!=", ""], "disabled":0}, ["name","account","postgrid_bank_account_id"], as_dict=1):
 		args = frappe._dict({
 					"method" : "POST",
 					"url" : f"{get_url()}/print-mail/v1/cheques",
@@ -66,15 +66,15 @@ def cheque_update(**args):
 				frappe.delete_doc("Payment Entry", payment_entry[0], ignore_permissions=True)
 				if purchase_invoice := frappe.get_all("Purchase Invoice",{"custom_postgrid_cheque_reference": data.get("id")}, pluck="name"):
 					frappe.db.sql(f'Update `tabPurchase Invoice` set custom_postgrid_cheque_reference="" where name="{purchase_invoice[0]}"')
-			log_name = create_response_log(frappe._dict({
-					"status": "Success",
-					"voucher_type": "Purchase Invoice",
-					"voucher_name": purchase_invoice[0],
-					"response": args,
-					"webhook": 1,
-					"postgrid_cheque_reference": data.get("id"),
-					"postgrid_cheque_status": data.get("status"),
-				}))
+					log_name = create_response_log(frappe._dict({
+							"status": "Success",
+							"voucher_type": "Purchase Invoice",
+							"voucher_name": purchase_invoice[0],
+							"response": args,
+							"webhook": 1,
+							"postgrid_cheque_reference": data.get("id"),
+							"postgrid_cheque_status": data.get("status"),
+						}))
 
 			frappe.db.commit()
 	
