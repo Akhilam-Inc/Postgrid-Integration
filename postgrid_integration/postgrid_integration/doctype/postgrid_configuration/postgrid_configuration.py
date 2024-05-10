@@ -32,7 +32,7 @@ class PostgridConfiguration(Document):
 			if webhook_list and webhook_list.get("data"):
 				webhook_created = False
 				for row in webhook_list.get("data"):
-					if row.get("enabled") and "cheque.updated" in row.get("enabledEvents") and "postgrid_integration.api.cheque_update" in row.get("url"):
+					if row.get("enabled") and "cheque.updated" in row.get("enabledEvents") and frappe.request.origin+"/api/method/postgrid_integration.api.cheque_update" == row.get("url"):
 						webhook_created = True
 
 				if not webhook_created:

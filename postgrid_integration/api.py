@@ -50,6 +50,8 @@ def create_postgrid_payment(name, retry=False, raise_throw=False):
 		if not raise_throw:
 			frappe.msgprint("Payment Created Successfully")
 
+		return True
+
 
 
 @frappe.whitelist(allow_guest=True)

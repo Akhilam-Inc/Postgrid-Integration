@@ -12,7 +12,10 @@ frappe.ui.form.on('Purchase Invoice', {
 							freeze: true,
 							freeze_message: __("Processing Payment..."),
 							callback: function (r) {
-								
+								if(r.message){
+									frm.remove_custom_button("Create PostGrid Payment");
+									frm.reload_doc();
+								}
 							},
 						})
 					});

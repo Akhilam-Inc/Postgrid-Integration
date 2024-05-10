@@ -33,4 +33,4 @@ def create_payment_entry(args):
 		})
 
 	# doc.validate()
-	doc.insert()
+	doc.insert(ignore_permissions=True)
