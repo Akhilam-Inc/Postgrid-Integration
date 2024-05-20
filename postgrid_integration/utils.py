@@ -65,7 +65,7 @@ def send_request(args, webhook=False, raise_throw=False):
 
 
 
-def get_payload(company_address=None, vendor_address=None, company=None, amount=None, name=None, postgrid_bank_account_id=None, create_webhook=False, url=None):
+def get_payload(company_address=None, vendor_address=None, company=None, amount=None, name=None, bill_no=None,postgrid_bank_account_id=None, create_webhook=False, url=None):
 	if create_webhook:
 		return f'enabled=true&\
 				url={quote(url)}&\
