@@ -65,39 +65,43 @@ def send_request(args, webhook=False, raise_throw=False):
 
 
 
-def get_payload(company_address=None, vendor_address=None, company=None, amount=None, name=None, bill_no=None,postgrid_bank_account_id=None, create_webhook=False, url=None):
-	if create_webhook:
-		return f'enabled=true&\
-				url={quote(url)}&\
-				enabledEvents%5B%5D=cheque.updated\
-				&description=Cheque%20Updated\
-				&payloadFormat=json'.replace('\t', '')
+def get_payload(company_address=None, vendor_address=None, company=None, amount=None, name=None,postgrid_bank_account_id=None, create_webhook=False, url=None):
+	try:
+		if create_webhook:
+			return f'enabled=true&\
+					url={quote(url)}&\
+					enabledEvents%5B%5D=cheque.updated\
+					&description=Cheque%20Updated\
+					&payloadFormat=json'.replace('\t', '')
 
-	company_address_doc = frappe.get_doc("Address", company_address)
-	vendor_address_doc = frappe.get_doc("Address", vendor_address)
-	company_doc = frappe.get_doc("Company", company)
+		company_address_doc = frappe.get_doc("Address", company_address)
+		vendor_address_doc = frappe.get_doc("Address", vendor_address)
+		company_doc = frappe.get_doc("Company", company)
 
+		
+		memo = f'Payment for {name}'
+		logo = url+company_doc.company_logo if company_doc.company_logo else ""
+		payload = f'from%5BcompanyName%5D={quote(company)}&\
+					from%5BaddressLine1%5D={quote(company_address_doc.address_line1 or "")}&\
+					from%5BaddressLine2%5D={quote(company_address_doc.address_line2 or "")}&\
+					from%5Bcity%5D={quote(company_address_doc.city or "")}&\
+					from%5BprovinceOrState%5D={quote(company_address_doc.state or "")}&\
+					from%5BcountryCode%5D={quote(frappe.get_value("Country",company_address_doc.country, "code") or "")}&\
+					from%5BpostalOrZip%5D={quote(company_address_doc.pincode or "")}&\
+					to%5BcompanyName%5D={quote(vendor_address_doc.address_title or "")}&\
+					to%5BaddressLine1%5D={quote(vendor_address_doc.address_line1 or "")}&\
+					to%5BaddressLine2%5D={quote(vendor_address_doc.address_line2 or "")}&\
+					to%5Bcity%5D={quote(vendor_address_doc.city or "")}&\
+					to%5BprovinceOrState%5D={quote(vendor_address_doc.state or "")}&\
+					to%5BcountryCode%5D={quote(frappe.get_value("Country",vendor_address_doc.country, "code") or "")}&\
+					to%5BpostalOrZip%5D={quote(vendor_address_doc.pincode or "")}&\
+					description=Test&\
+					bankAccount={quote(postgrid_bank_account_id)}&\
+					amount={amount*100}&\
+					memo={quote(memo)}&\
+					logo={quote(logo)}'
+
+		return payload.replace('\t', '')
 	
-	memo = f'Payment for {name}'
-	logo = url+company_doc.company_logo if company_doc.company_logo else ""
-	payload = f'from%5BcompanyName%5D={quote(company)}&\
-				from%5BaddressLine1%5D={quote(company_address_doc.address_line1 or "")}&\
-				from%5BaddressLine2%5D={quote(company_address_doc.address_line2 or "")}&\
-				from%5Bcity%5D={quote(company_address_doc.city or "")}&\
-				from%5BprovinceOrState%5D={quote(company_address_doc.state or "")}&\
-				from%5BcountryCode%5D={quote(frappe.get_value("Country",company_address_doc.country, "code") or "")}&\
-				from%5BpostalOrZip%5D={quote(company_address_doc.pincode or "")}&\
-				to%5BcompanyName%5D={quote(vendor_address_doc.address_title or "")}&\
-				to%5BaddressLine1%5D={quote(vendor_address_doc.address_line1 or "")}&\
-				to%5BaddressLine2%5D={quote(vendor_address_doc.address_line2 or "")}&\
-				to%5Bcity%5D={quote(vendor_address_doc.city or "")}&\
-				to%5BprovinceOrState%5D={quote(vendor_address_doc.state or "")}&\
-				to%5BcountryCode%5D={quote(frappe.get_value("Country",vendor_address_doc.country, "code") or "")}&\
-				to%5BpostalOrZip%5D={quote(vendor_address_doc.pincode or "")}&\
-				description=Test&\
-				bankAccount={quote(postgrid_bank_account_id)}&\
-				amount={amount*100}&\
-				memo={quote(memo)}&\
-				logo={quote(logo)}'
-
-	return payload.replace('\t', '')
+	except Exception as e:
+		frappe.log_error("Payload"+postgrid_bank_account_id, frappe.get_traceback())
