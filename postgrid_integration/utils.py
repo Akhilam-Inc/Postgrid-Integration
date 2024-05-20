@@ -75,8 +75,11 @@ def get_payload(company_address=None, vendor_address=None, company=None, amount=
 
 	company_address_doc = frappe.get_doc("Address", company_address)
 	vendor_address_doc = frappe.get_doc("Address", vendor_address)
+	company_doc = frappe.get_doc("Company", company)
 
+	
 	memo = f'Payment for {name}'
+	logo = url+company_doc.company_logo if company_doc.company_logo else ""
 	payload = f'from%5BcompanyName%5D={quote(company)}&\
 				from%5BaddressLine1%5D={quote(company_address_doc.address_line1 or "")}&\
 				from%5BaddressLine2%5D={quote(company_address_doc.address_line2 or "")}&\
@@ -94,6 +97,7 @@ def get_payload(company_address=None, vendor_address=None, company=None, amount=
 				description=Test&\
 				bankAccount={quote(postgrid_bank_account_id)}&\
 				amount={amount*100}&\
-				memo={quote(memo)}'
+				memo={quote(memo)}&\
+				logo={quote(logo)}'
 
 	return payload.replace('\t', '')
