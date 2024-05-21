@@ -65,7 +65,7 @@ def send_request(args, webhook=False, raise_throw=False):
 
 
 
-def get_payload(company_address=None, vendor_address=None, company=None, amount=None, name=None,postgrid_bank_account_id=None, create_webhook=False, url=None):
+def get_payload(company_address=None, vendor_address=None, company=None, amount=None, name=None, bill_no=None,postgrid_bank_account_id=None, create_webhook=False, url=None):
 	try:
 		if create_webhook:
 			return f'enabled=true&\
@@ -79,7 +79,11 @@ def get_payload(company_address=None, vendor_address=None, company=None, amount=
 		company_doc = frappe.get_doc("Company", company)
 
 		
-		memo = f'Payment for {name}'
+		# memo = f'Payment for {name}'
+		memo = f'Payment for {bill_no}'
+		description = f'{name}'
+
+
 		logo = url+company_doc.company_logo if company_doc.company_logo else ""
 		payload = f'from%5BcompanyName%5D={quote(company)}&\
 					from%5BaddressLine1%5D={quote(company_address_doc.address_line1 or "")}&\
@@ -95,7 +99,7 @@ def get_payload(company_address=None, vendor_address=None, company=None, amount=
 					to%5BprovinceOrState%5D={quote(vendor_address_doc.state or "")}&\
 					to%5BcountryCode%5D={quote(frappe.get_value("Country",vendor_address_doc.country, "code") or "")}&\
 					to%5BpostalOrZip%5D={quote(vendor_address_doc.pincode or "")}&\
-					description=Test&\
+					description={quote(description)}&\
 					bankAccount={quote(postgrid_bank_account_id)}&\
 					amount={amount*100}&\
 					memo={quote(memo)}&\

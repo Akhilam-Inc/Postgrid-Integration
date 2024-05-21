@@ -18,7 +18,7 @@ def create_postgrid_payment(name, retry=False, raise_throw=False):
 					"method" : "POST",
 					"url" : f"{get_url()}/print-mail/v1/cheques",
 					"headers": get_headers(),
-					"payload": get_payload(doc.billing_address, doc.supplier_address, doc.company, doc.outstanding_amount, doc.name, bank_acc_doc.postgrid_bank_account_id, url=frappe.request.origin),
+					"payload": get_payload(doc.billing_address, doc.supplier_address, doc.company, doc.outstanding_amount, doc.name, doc.bill_no, bank_acc_doc.postgrid_bank_account_id, url=frappe.request.origin),
 					"voucher_type": doc.doctype,
 					"voucher_name": doc.name,
 					"throw_message": "We are unable to create postgrid payment please try again sometime"
