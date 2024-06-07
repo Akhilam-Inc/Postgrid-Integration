@@ -32,6 +32,7 @@ def create_response_log(log_details):
 	log = frappe.get_doc({
 							"doctype": "Postgrid Log",
 							"status": log_details.status,
+							"type": log_details.type,
 							"payload": log_details.get("payload") or "",
 							"voucher_type": log_details.get("voucher_type"),
 							"voucher_name": log_details.get("voucher_name"),
@@ -202,4 +203,4 @@ def get_pdf_link(doc, fieldname, url):
 
 	pdf_link = url + file_doc.file_url
 
-	return "https://staging.rangemart.com/files/PostgridLetter.pdf" or pdf_link
+	return pdf_link
