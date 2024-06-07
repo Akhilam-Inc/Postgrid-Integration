@@ -87,6 +87,11 @@ def cheque_update(**args):
 		frappe.log_error("cheque_update", str(frappe.get_traceback()))
 
 
+@frappe.whitelist(allow_guest=True)
+def letter_update(**args):
+	frappe.log_error("letter_update", str(args))
+
+
 @frappe.whitelist()
 def create_postgrid_letter(name, retry=False, raise_throw=False):
 	doc = frappe.get_doc("Sales Invoice", name)
