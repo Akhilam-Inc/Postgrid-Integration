@@ -23,6 +23,7 @@ class PostgridConfiguration(Document):
 		if (not doc and self.enable) or (not doc.enable and self.enable):
 			webhook_list = send_request(frappe._dict({
 								"method" : "GET",
+								"type": "Cheque",
 								"url" : f"{self.postgrid_url}/print-mail/v1/webhooks",
 								"headers": get_webhook_headers(postgrid_api_key=self.get_password("postgrid_api_key")),
 								"webhook": True,
@@ -38,6 +39,7 @@ class PostgridConfiguration(Document):
 				if not webhook_created:
 					args = frappe._dict({
 						"method" : "POST",
+						"type": "Cheque",
 						"url" : f"{self.postgrid_url}/print-mail/v1/webhooks",
 						"headers": get_headers(postgrid_api_key=self.get_password("postgrid_api_key")),
 						"webhook": True,

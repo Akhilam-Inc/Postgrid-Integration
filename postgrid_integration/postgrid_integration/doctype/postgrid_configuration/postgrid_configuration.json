@@ -13,7 +13,9 @@
   "postgrid_api_key",
   "column_break_lb7ff",
   "log_deletion_interval",
-  "last_deleted_on"
+  "last_deleted_on",
+  "postgrid_letter_format_section",
+  "postgrid_letter_format"
  ],
  "fields": [
   {
@@ -55,12 +57,23 @@
    "fieldtype": "Date",
    "hidden": 1,
    "label": "Last Deleted On"
+  },
+  {
+   "fieldname": "postgrid_letter_format_section",
+   "fieldtype": "Section Break",
+   "label": "Postgrid Letter Format"
+  },
+  {
+   "depends_on": "eval:doc.enable == 1",
+   "fieldname": "postgrid_letter_format",
+   "fieldtype": "Table",
+   "options": "Postgrid Letter Format"
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-05-07 16:18:37.975301",
+ "modified": "2024-06-07 11:22:34.799775",
  "modified_by": "Administrator",
  "module": "Postgrid Integration",
  "name": "Postgrid Configuration",

@@ -32,6 +32,7 @@ app_license = "MIT"
 # doctype_js = {"doctype" : "public/js/doctype.js"}
 doctype_js = {
 	"Purchase Invoice" : "custom_scripts/js/purchase_invoice.js",
+	"Sales Invoice" : "custom_scripts/js/sales_invoice.js",
 	"Payment Entry" : "custom_scripts/js/payment_entry.js",
 }
 doctype_list_js = {
@@ -62,7 +63,9 @@ fixtures=[
 	{"dt": "Custom Field", "filters": [
 		[
 			"name", "in", [
-				"Purchase Invoice-custom_postgrid_cheque_reference","Payment Entry-custom_postgrid_cheque_reference","Payment Entry-custom_postgrid_cheque_status","Bank Account-custom_postgrid_bank_account_id"
+				"Purchase Invoice-custom_postgrid_cheque_reference","Payment Entry-custom_postgrid_cheque_reference",
+				"Payment Entry-custom_postgrid_cheque_status","Bank Account-custom_postgrid_bank_account_id",
+				"Sales Invoice-custom_postgrid_letter_file", "Sales Invoice-custom_postgrid_letter_reference"
 			]
 		]
 	]},
@@ -140,6 +143,9 @@ fixtures=[
 doc_events = {
 	"Purchase Invoice": {
 		"before_submit": "postgrid_integration.custom_scripts.py.purchase_invoice.before_submit",
+	},
+	"Sales Invoice": {
+		"before_submit": "postgrid_integration.custom_scripts.py.sales_invoice.before_submit",
 	}
 }
 

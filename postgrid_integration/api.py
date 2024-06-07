@@ -1,9 +1,11 @@
 import frappe
 from frappe.utils import get_link_to_form, get_url_to_list
 from postgrid_integration.constants import get_headers, get_url
-from postgrid_integration.utils import get_payload, send_request, create_response_log
+from postgrid_integration.utils import get_payload, send_request, create_response_log, get_payload_for_letter
 from postgrid_integration.custom_scripts.py.payment_entry import create_payment_entry
 from postgrid_integration.custom_scripts.py.purchase_invoice import validate_mandatory_fields
+from postgrid_integration.custom_scripts.py.sales_invoice import validate_mandatory_fields as validate_mandatory_fields_for_letter
+from postgrid_integration.utils import get_pdf_link
 
 @frappe.whitelist()
 def create_postgrid_payment(name, retry=False, raise_throw=False):
@@ -16,6 +18,7 @@ def create_postgrid_payment(name, retry=False, raise_throw=False):
 	if bank_acc_doc := frappe.db.get_value("Bank Account",{"is_company_account": 1,"company": doc.company, "postgrid_bank_account_id":["!=", ""], "disabled":0}, ["name","account","postgrid_bank_account_id"], as_dict=1):
 		args = frappe._dict({
 					"method" : "POST",
+					"type": "Cheque",
 					"url" : f"{get_url()}/print-mail/v1/cheques",
 					"headers": get_headers(),
 					"payload": get_payload(doc.billing_address, doc.supplier_address, doc.company, doc.outstanding_amount, doc.name, doc.bill_no, bank_acc_doc.postgrid_bank_account_id, url=frappe.request.origin),
@@ -82,4 +85,41 @@ def cheque_update(**args):
 	
 	except Exception as e:
 		frappe.log_error("cheque_update", str(frappe.get_traceback()))
+
+
+@frappe.whitelist()
+def create_postgrid_letter(name, retry=False, raise_throw=False):
+	doc = frappe.get_doc("Sales Invoice", name)
+	if doc.custom_postgrid_letter_reference:
+		if not raise_throw:
+			frappe.throw(f'Postgrid Letter Reference is already generated for this invoice {get_link_to_form("Purchase Invoice", doc.name)}')
+		raise Exception(f'Postgrid Letter Reference is already generated for this invoice {get_link_to_form("Purchase Invoice", doc.name)}')
+
+	validate_mandatory_fields_for_letter(doc=doc,throw= False if raise_throw else True, raise_throw=raise_throw)
+	
+	pdf_link = get_pdf_link(doc, "custom_postgrid_letter_file", frappe.request.origin)
+
+	args = frappe._dict({
+				"method" : "POST",
+				"type": "Letter",
+				"url" : f"{get_url()}/print-mail/v1/letters",
+				"headers": get_headers(),
+				"payload": get_payload_for_letter(doc.company_address, doc.customer_address, doc.company, doc.name, pdf_link, url=frappe.request.origin),
+				"voucher_type": doc.doctype,
+				"voucher_name": doc.name,
+				"throw_message": "We are unable to send postgrid letter please try again sometime"
+	})
+
+	if retry:
+		args.update({
+						"retry": frappe.db.get_list("Postgrid Log",{"voucher_name": doc.name}, ["sum(no_of_retry) as retry"])[0]["retry"] + 1
+		})
+	letter_id, status = send_request(args, raise_throw=raise_throw)
+
+	doc.db_set("custom_postgrid_letter_reference", letter_id)
+	if not raise_throw:
+		frappe.msgprint("Letter Created Successfully")
+
+	return True
+
 

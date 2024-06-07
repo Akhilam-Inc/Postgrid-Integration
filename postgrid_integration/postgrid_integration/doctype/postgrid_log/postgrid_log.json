@@ -9,14 +9,17 @@
  "engine": "InnoDB",
  "field_order": [
   "status",
-  "webhook",
+  "type",
   "column_break_ht5xt",
   "voucher_type",
   "voucher_name",
+  "webhook",
   "section_break_u5nkj",
   "postgrid_cheque_reference",
+  "postgrid_letter_reference",
   "column_break_ayrof",
   "postgrid_cheque_status",
+  "postgrid_letter_status",
   "section_break_ukyty",
   "payload",
   "column_break_sna6",
@@ -29,7 +32,8 @@
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Status",
-   "options": "\nSuccess\nFailure"
+   "options": "\nSuccess\nFailure",
+   "read_only": 1
   },
   {
    "fieldname": "column_break_ht5xt",
@@ -73,13 +77,16 @@
    "fieldname": "voucher_type",
    "fieldtype": "Link",
    "label": "Voucher Type",
-   "options": "DocType"
+   "options": "DocType",
+   "read_only": 1
   },
   {
    "fieldname": "voucher_name",
    "fieldtype": "Dynamic Link",
+   "in_standard_filter": 1,
    "label": "Voucher Name",
-   "options": "voucher_type"
+   "options": "voucher_type",
+   "read_only": 1
   },
   {
    "depends_on": "eval:doc.status == \"Failure\"",
@@ -99,13 +106,34 @@
    "default": "0",
    "fieldname": "webhook",
    "fieldtype": "Check",
+   "in_standard_filter": 1,
    "label": "Webhook",
+   "read_only": 1
+  },
+  {
+   "fieldname": "type",
+   "fieldtype": "Select",
+   "in_standard_filter": 1,
+   "label": "Type",
+   "options": "\nCheque\nLetter",
+   "read_only": 1
+  },
+  {
+   "fieldname": "postgrid_letter_reference",
+   "fieldtype": "Data",
+   "label": "Postgrid Letter Reference",
+   "read_only": 1
+  },
+  {
+   "fieldname": "postgrid_letter_status",
+   "fieldtype": "Data",
+   "label": "Postgrid Letter Status",
    "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-05-08 13:06:48.282660",
+ "modified": "2024-06-07 13:13:25.726812",
  "modified_by": "Administrator",
  "module": "Postgrid Integration",
  "name": "Postgrid Log",

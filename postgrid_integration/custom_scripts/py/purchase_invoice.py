@@ -2,6 +2,7 @@ import frappe, json
 from frappe.utils import get_link_to_form, get_url_to_list
 from frappe import _
 from frappe.contacts.doctype.address.address import get_address_display
+from postgrid_integration.constants import is_postgrid_enabled
 
 def validate_mandatory_fields(doc, throw=False, raise_throw=False):
 	set_address(doc)
@@ -51,7 +52,7 @@ def validate_mandatory_fields(doc, throw=False, raise_throw=False):
 
 @frappe.whitelist()
 def before_submit(doc, method):
-	if not doc.get("ignore_postgrid_validation"):
+	if is_postgrid_enabled() and not doc.get("ignore_postgrid_validation"):
 		validate_mandatory_fields(doc)
 
 
