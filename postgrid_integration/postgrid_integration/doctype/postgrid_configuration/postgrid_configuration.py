@@ -5,7 +5,7 @@ import frappe
 from frappe.model.document import Document
 from datetime import datetime
 from frappe.utils import today
-from postgrid_integration.utils import send_request, get_payload
+from postgrid_integration.utils import send_request, get_payload, get_payload_for_letter
 from postgrid_integration.constants import get_webhook_headers, get_headers
 
 class PostgridConfiguration(Document):
@@ -30,18 +30,36 @@ class PostgridConfiguration(Document):
 			}), webhook=True)
 
 			if webhook_list and webhook_list.get("data"):
-				webhook_created = False
+				cheque_webhook_created = False
+				letter_webhook_created = False
 				for row in webhook_list.get("data"):
 					if row.get("enabled") and "cheque.updated" in row.get("enabledEvents") and frappe.request.origin+"/api/method/postgrid_integration.api.cheque_update" == row.get("url"):
-						webhook_created = True
+						cheque_webhook_created = True
 
-				if not webhook_created:
+					if row.get("enabled") and "letter.updated" in row.get("enabledEvents") and frappe.request.origin+"/api/method/postgrid_integration.api.letter_update" == row.get("url"):
+						letter_webhook_created = True
+
+				if not cheque_webhook_created:
 					args = frappe._dict({
 						"method" : "POST",
+						"type": "Cheque",
 						"url" : f"{self.postgrid_url}/print-mail/v1/webhooks",
 						"headers": get_headers(postgrid_api_key=self.get_password("postgrid_api_key")),
 						"webhook": True,
 						"payload": get_payload(create_webhook=True, url=frappe.request.origin+"/api/method/postgrid_integration.api.cheque_update"),
+						"throw_message": "We are unable to create webhook",
+					})
+					send_request(args, webhook=True)
+
+
+				if not letter_webhook_created:
+					args = frappe._dict({
+						"method" : "POST",
+						"type": "Letter",
+						"url" : f"{self.postgrid_url}/print-mail/v1/webhooks",
+						"headers": get_headers(postgrid_api_key=self.get_password("postgrid_api_key")),
+						"webhook": True,
+						"payload": get_payload_for_letter(create_webhook=True, url=frappe.request.origin+"/api/method/postgrid_integration.api.letter_update"),
 						"throw_message": "We are unable to create webhook",
 					})
 					send_request(args, webhook=True)

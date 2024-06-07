@@ -20,3 +20,7 @@ def get_webhook_headers(postgrid_api_key=None):
 				
 			}
 
+
+def is_postgrid_enabled():
+	doc = frappe.get_doc("Postgrid Configuration", "Postgrid Configuration")
+	return doc.enable

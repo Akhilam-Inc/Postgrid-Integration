@@ -1,0 +1,110 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-06-07 15:11:40.994371",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "from_date",
+  "column_break_xpzv5",
+  "to_date",
+  "section_break_19exy",
+  "get_sales_invoice",
+  "items",
+  "section_break_1wu2s",
+  "total_invoices",
+  "column_break_efhpo",
+  "success_invoices",
+  "failed_invoices",
+  "invalid_invoices"
+ ],
+ "fields": [
+  {
+   "fieldname": "from_date",
+   "fieldtype": "Date",
+   "label": "From Date"
+  },
+  {
+   "fieldname": "column_break_xpzv5",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "to_date",
+   "fieldtype": "Date",
+   "label": "To Date"
+  },
+  {
+   "fieldname": "section_break_19exy",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "items",
+   "fieldtype": "Table",
+   "label": "Items",
+   "options": "Letter Creation Item"
+  },
+  {
+   "fieldname": "section_break_1wu2s",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "total_invoices",
+   "fieldtype": "Int",
+   "label": "Total Invoices",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_efhpo",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "success_invoices",
+   "fieldtype": "Int",
+   "label": "Success Invoices ",
+   "read_only": 1
+  },
+  {
+   "fieldname": "failed_invoices",
+   "fieldtype": "Int",
+   "label": "Failed Invoices",
+   "read_only": 1
+  },
+  {
+   "fieldname": "invalid_invoices",
+   "fieldtype": "Text",
+   "hidden": 1,
+   "label": "Invalid Invoices"
+  },
+  {
+   "fieldname": "get_sales_invoice",
+   "fieldtype": "Button",
+   "label": "Get Sales Invoice",
+   "options": "get_sales_invoice"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "issingle": 1,
+ "links": [],
+ "modified": "2024-06-07 15:23:11.550040",
+ "modified_by": "Administrator",
+ "module": "Postgrid Integration",
+ "name": "Bulk Letter Creation Tool",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
