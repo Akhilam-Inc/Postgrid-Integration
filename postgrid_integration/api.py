@@ -73,6 +73,7 @@ def cheque_update(**args):
 					frappe.db.sql(f'Update `tabPurchase Invoice` set custom_postgrid_cheque_reference="" where name="{purchase_invoice[0]}"')
 					log_name = create_response_log(frappe._dict({
 							"status": "Success",
+							"type": "Cheque",
 							"voucher_type": "Purchase Invoice",
 							"voucher_name": purchase_invoice[0],
 							"response": args,
@@ -82,15 +83,29 @@ def cheque_update(**args):
 						}))
 
 			frappe.db.commit()
-	
+
 	except Exception as e:
 		frappe.log_error("cheque_update", str(frappe.get_traceback()))
 
 
 @frappe.whitelist(allow_guest=True)
 def letter_update(**args):
-	frappe.log_error("letter_update", str(args))
+	try:
+		data = args["data"]
+		if sales_invoice := frappe.get_all("Sales Invoice",{"custom_postgrid_letter_reference": data.get("id")}, pluck="name"):
+			log_name = create_response_log(frappe._dict({
+							"status": "Success",
+							"type": "Letter",
+							"voucher_type": "Sales Invoice",
+							"voucher_name": sales_invoice[0],
+							"response": args,
+							"webhook": 1,
+							"postgrid_letter_reference": data.get("id"),
+							"postgrid_letter_status": data.get("status"),
+						}))
 
+	except Exception as e:
+		frappe.log_error("letter_update", str(frappe.get_traceback()))
 
 @frappe.whitelist()
 def create_postgrid_letter(name, retry=False, raise_throw=False):
