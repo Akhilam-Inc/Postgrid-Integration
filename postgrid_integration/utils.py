@@ -170,7 +170,7 @@ def upload_file(doctype, name, print_format, letterhead=None, fieldname=None):
 	from frappe.translate import print_language
 	with print_language("en"):
 		pdf_file = frappe.get_print(
-			doctype, name, print_format, doc=None, as_pdf=True, letterhead=letterhead, no_letterhead= 1 if letterhead else 0
+			doctype, name, print_format, doc=doc, as_pdf=True, letterhead=letterhead, no_letterhead= 0 if letterhead else 1
 		)
 	file_doc = frappe.get_doc(
 			{
