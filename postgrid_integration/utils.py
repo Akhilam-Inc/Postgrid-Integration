@@ -125,7 +125,7 @@ def get_payload(company_address=None, vendor_address=None, company=None, amount=
 	except Exception as e:
 		frappe.log_error("Payload"+postgrid_bank_account_id, frappe.get_traceback())
 
-def get_payload_for_letter(company_address=None, vendor_address=None, name=None, company=None, pdf_link=None, create_webhook=False, url=None):
+def get_payload_for_letter(company_address=None, vendor_address=None, company=None, name=None, pdf_link=None, create_webhook=False, url=None):
 	try:
 		if create_webhook:
 			return f'enabled=true&\
