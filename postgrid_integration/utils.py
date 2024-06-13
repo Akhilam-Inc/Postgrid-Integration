@@ -155,6 +155,7 @@ def get_payload_for_letter(company_address=None, vendor_address=None, company=No
 					to%5BcountryCode%5D={quote(frappe.get_value("Country",vendor_address_doc.country, "code") or "")}&\
 					to%5BpostalOrZip%5D={quote(vendor_address_doc.pincode or "")}&\
 					pdf={quote(pdf_link, safe="")}&\
+					description={quote(name)}&\
 					addressPlacement=insert_blank_page&\
 					color=true&\
 					size=us_letter'

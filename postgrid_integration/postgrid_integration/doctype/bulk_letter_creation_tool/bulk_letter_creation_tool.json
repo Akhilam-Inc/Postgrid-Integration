@@ -8,8 +8,10 @@
  "engine": "InnoDB",
  "field_order": [
   "from_date",
+  "status",
   "column_break_xpzv5",
   "to_date",
+  "letter_status",
   "section_break_19exy",
   "get_sales_invoice",
   "items",
@@ -82,12 +84,24 @@
    "fieldtype": "Button",
    "label": "Get Sales Invoice",
    "options": "get_sales_invoice"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "\nPaid\nPartly Paid\nUnpaid\nUnpaid and Discounted\nPartly Paid and Discounted\nOverdue and Discounted\nOverdue\nInternal Transfer"
+  },
+  {
+   "fieldname": "letter_status",
+   "fieldtype": "Select",
+   "label": "Letter Status",
+   "options": "\nSent\nNot Sent"
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-06-07 15:23:11.550040",
+ "modified": "2024-06-13 10:30:03.375146",
  "modified_by": "Administrator",
  "module": "Postgrid Integration",
  "name": "Bulk Letter Creation Tool",
