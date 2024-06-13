@@ -15,13 +15,29 @@ class BulkLetterCreationTool(Document):
 	@frappe.whitelist()
 	def get_sales_invoice(self):
 		self.items = []
-		if not self.from_date or not self.to_date:
+		condition = ""
+		if self.from_date and not self.to_date or self.to_date and not self.from_date:
 			frappe.throw("From Date and To Date are mandatory")
 
-		if si_list := frappe.db.sql("""Select name as sales_invoice,outstanding_amount as amount,status from `tabSales Invoice`\
-									 where docstatus=1 and is_return=0 and custom_postgrid_letter_reference is NULL\
-									and posting_date BETWEEN '{0}' and '{1}' """.format(self.from_date, self.to_date), as_dict=True):
+		if self.from_date and self.to_date:
+			condition += "and posting_date BETWEEN '{0}' and '{1}'".format(self.from_date, self.to_date)
+
+		if self.status:
+			condition += "and status = '{0}'".format(self.status)
+
+		if self.letter_status == 'Sent':
+			condition += "and custom_postgrid_letter_reference is NOT NULL"
+		
+		if self.letter_status == 'Not Sent':
+			condition += "and custom_postgrid_letter_reference is NULL"
+
+		if si_list := frappe.db.sql("""Select name as sales_invoice,outstanding_amount as amount,status, customer, custom_postgrid_letter_reference from `tabSales Invoice`\
+									where docstatus=1 and is_return=0 \
+										{condition} """.format(condition=condition), as_dict=True):
 			for row in si_list:
+				row.letter_status = "Not Sent"
+				if row.custom_postgrid_letter_reference:
+					row.letter_status = "Sent"
 				self.append("items", row)
 
 
