@@ -156,7 +156,7 @@ def get_payload_for_letter(company_address=None, vendor_address=None, company=No
 					to%5BpostalOrZip%5D={quote(vendor_address_doc.pincode or "")}&\
 					pdf={quote(pdf_link, safe="")}&\
 					description={quote(name)}&\
-					addressPlacement=insert_blank_page&\
+					addressPlacement=top_first_page&\
 					color=true&\
 					size=us_letter'
 
