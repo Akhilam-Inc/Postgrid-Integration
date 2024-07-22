@@ -15,6 +15,7 @@
   "items",
   "section_break_1wu2s",
   "total_invoices",
+  "total_amount",
   "column_break_efhpo",
   "success_invoices",
   "failed_invoices",
@@ -82,12 +83,18 @@
    "fieldtype": "Text",
    "hidden": 1,
    "label": "Invalid Invoices"
+  },
+  {
+   "fieldname": "total_amount",
+   "fieldtype": "Currency",
+   "label": "Total Amount",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-05-09 15:51:06.170653",
+ "modified": "2024-07-22 11:45:05.608930",
  "modified_by": "Administrator",
  "module": "Postgrid Integration",
  "name": "Bulk Payment Creation Tool",

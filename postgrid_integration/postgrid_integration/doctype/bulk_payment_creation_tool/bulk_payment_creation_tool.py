@@ -15,15 +15,17 @@ class BulkPaymentCreationTool(Document):
 	@frappe.whitelist()
 	def get_purchase_invoice(self):
 		self.items = []
+		total_amount = 0
 		if not self.from_date or not self.to_date:
 			frappe.throw("From Date and To Date are mandatory")
 
 		if pi_list := frappe.db.sql("""Select name as purchase_invoice,outstanding_amount as amount,status from `tabPurchase Invoice`\
 									 where docstatus=1 and is_return=0 and outstanding_amount>0 and custom_postgrid_cheque_reference is NULL and posting_date BETWEEN '{0}' and '{1}' """.format(self.from_date, self.to_date), as_dict=True):
 			for row in pi_list:
+				total_amount += row["amount"]
 				self.append("items", row)
 
-
+			self.total_amount = total_amount
 		else:
 			frappe.msgprint("No Invoice found for given filter")
 
