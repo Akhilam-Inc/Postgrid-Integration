@@ -17,6 +17,7 @@
   "items",
   "section_break_1wu2s",
   "total_invoices",
+  "total_amount",
   "column_break_efhpo",
   "success_invoices",
   "failed_invoices",
@@ -96,12 +97,18 @@
    "fieldtype": "Select",
    "label": "Letter Status",
    "options": "\nSent\nNot Sent"
+  },
+  {
+   "fieldname": "total_amount",
+   "fieldtype": "Currency",
+   "label": "Total Amount",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-06-13 10:30:03.375146",
+ "modified": "2024-07-22 11:20:38.113799",
  "modified_by": "Administrator",
  "module": "Postgrid Integration",
  "name": "Bulk Letter Creation Tool",

@@ -16,6 +16,7 @@ class BulkLetterCreationTool(Document):
 	def get_sales_invoice(self):
 		self.items = []
 		condition = ""
+		total_amount = 0
 		if self.from_date and not self.to_date or self.to_date and not self.from_date:
 			frappe.throw("From Date and To Date are mandatory")
 
@@ -35,10 +36,12 @@ class BulkLetterCreationTool(Document):
 									where docstatus=1 and is_return=0 \
 										{condition} """.format(condition=condition), as_dict=True):
 			for row in si_list:
+				total_amount += row["amount"]
 				row.letter_status = "Not Sent"
 				if row.custom_postgrid_letter_reference:
 					row.letter_status = "Sent"
 				self.append("items", row)
+			self.total_amount = total_amount
 
 
 		else:
