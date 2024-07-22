@@ -85,13 +85,17 @@ def create_bulk_payment(invoice_list):
 	bulk_payment_doc.items = []
 	bulk_payment_doc.from_date = bulk_payment_doc.to_date = ""
 	invalid_invoices = []
+	total_amount = 0
 	for row in invoice_list:
 		invoice_details = frappe.get_all("Purchase Invoice", {"name": row}, ["custom_postgrid_cheque_reference", "docstatus", "status", "outstanding_amount"])[0]
 		if not invoice_details.custom_postgrid_cheque_reference and invoice_details.docstatus == 1 and invoice_details.outstanding_amount > 0:
 			bulk_payment_doc.append("items", {"purchase_invoice": row, "status": invoice_details.status, "amount": invoice_details.outstanding_amount})
+			total_amount += invoice_details.outstanding_amount
 		else:
 			invalid_invoices.append(f"<br><a href='{pi_path+row}'>{row}</a>")
 
+
+	bulk_payment_doc.total_amount = total_amount
 	if not bulk_payment_doc.items:
 		frappe.throw("The chosen records didn't meet the necessary criteria to generate postgrid cheques.")
 
