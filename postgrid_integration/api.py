@@ -110,11 +110,6 @@ def letter_update(**args):
 @frappe.whitelist()
 def create_postgrid_letter(name, retry=False, raise_throw=False):
 	doc = frappe.get_doc("Sales Invoice", name)
-	if doc.custom_postgrid_letter_reference:
-		if not raise_throw:
-			frappe.throw(f'Postgrid Letter Reference is already generated for this invoice {get_link_to_form("Purchase Invoice", doc.name)}')
-		raise Exception(f'Postgrid Letter Reference is already generated for this invoice {get_link_to_form("Purchase Invoice", doc.name)}')
-
 	validate_mandatory_fields_for_letter(doc=doc,throw= False if raise_throw else True, raise_throw=raise_throw)
 	
 	pdf_link = get_pdf_link(doc, "custom_postgrid_letter_file", frappe.request.origin)
