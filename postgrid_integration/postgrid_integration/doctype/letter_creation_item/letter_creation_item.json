@@ -8,6 +8,7 @@
  "engine": "InnoDB",
  "field_order": [
   "sales_invoice",
+  "date",
   "customer",
   "amount",
   "status",
@@ -66,12 +67,21 @@
    "label": "Letter Status",
    "options": "\nSent\nNot Sent",
    "read_only": 1
+  },
+  {
+   "fetch_from": "sales_invoice.posting_date",
+   "fetch_if_empty": 1,
+   "fieldname": "date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Date",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-06-12 19:47:59.746130",
+ "modified": "2024-08-16 23:10:53.082124",
  "modified_by": "Administrator",
  "module": "Postgrid Integration",
  "name": "Letter Creation Item",
