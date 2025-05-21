@@ -60,6 +60,9 @@ def create_postgrid_payment(name, retry=False, raise_throw=False):
 @frappe.whitelist(allow_guest=True)
 def cheque_update(**args):
 	try:
+		frappe.flags.ignore_permissions = True
+		frappe.set_user("Administrator")
+		
 		data = args["data"]
 		if payment_entry := frappe.get_all("Payment Entry",{"custom_postgrid_cheque_reference": data.get("id")}, pluck="name"):
 			frappe.db.set_value("Payment Entry", payment_entry[0], "custom_postgrid_cheque_status", data.get("status"))
