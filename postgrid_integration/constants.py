@@ -1,5 +1,4 @@
 import frappe
-from frappe.utils import get_link_to_form
 
 
 def get_url():

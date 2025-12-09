@@ -1,11 +1,8 @@
 import json
-from datetime import datetime
 from urllib.parse import quote
 
 import frappe
 import requests
-from frappe import _
-from frappe.utils import get_link_to_form
 
 
 @frappe.whitelist()
@@ -61,7 +58,7 @@ def send_request(args, webhook=False, raise_throw=False):
         args.method, args.url, headers=args.headers, data=args.payload
     )
     data = frappe._dict(json.loads(response.text))
-    log_name = create_response_log(
+    create_response_log(
         frappe._dict(
             {
                 "status": "Success" if response.ok else "Failure",
@@ -150,7 +147,7 @@ def get_payload(
 
         return payload.replace("\t", "")
 
-    except Exception as e:
+    except Exception:
         frappe.log_error("Payload" + postgrid_bank_account_id, frappe.get_traceback())
 
 
@@ -196,7 +193,7 @@ def get_payload_for_letter(
 
         return payload.replace("\t", "")
 
-    except Exception as e:
+    except Exception:
         frappe.log_error(f"Letter Payload {name}", frappe.get_traceback())
 
 

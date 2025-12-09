@@ -1,5 +1,5 @@
 import frappe
-from frappe.utils import get_link_to_form, get_url_to_list
+from frappe.utils import get_link_to_form
 
 from postgrid_integration.constants import get_headers, get_url
 from postgrid_integration.custom_scripts.py.payment_entry import create_payment_entry
@@ -139,7 +139,7 @@ def cheque_update(**args):
                     frappe.db.sql(
                         f'Update `tabPurchase Invoice` set custom_postgrid_cheque_reference="" where name="{purchase_invoice[0]}"'
                     )
-                    log_name = create_response_log(
+                    create_response_log(
                         frappe._dict(
                             {
                                 "status": "Success",
@@ -156,7 +156,7 @@ def cheque_update(**args):
 
             frappe.db.commit()
 
-    except Exception as e:
+    except Exception:
         frappe.log_error("cheque_update", str(frappe.get_traceback()))
 
 
@@ -169,7 +169,7 @@ def letter_update(**args):
             {"custom_postgrid_letter_reference": data.get("id")},
             pluck="name",
         ):
-            log_name = create_response_log(
+            create_response_log(
                 frappe._dict(
                     {
                         "status": "Success",
@@ -184,7 +184,7 @@ def letter_update(**args):
                 )
             )
 
-    except Exception as e:
+    except Exception:
         frappe.log_error("letter_update", str(frappe.get_traceback()))
 
 

@@ -56,7 +56,7 @@ def process_bulk_payment(invoice_list):
             frappe.db.set_value(
                 "Payment Creation Item", row.get("name"), "response", success_msg
             )
-        except Exception as e:
+        except Exception:
             frappe.log_error("process_bulk_payment", str(frappe.get_traceback()))
             frappe.db.set_value(
                 "Payment Creation Item", row.get("name"), "response", failed_msg

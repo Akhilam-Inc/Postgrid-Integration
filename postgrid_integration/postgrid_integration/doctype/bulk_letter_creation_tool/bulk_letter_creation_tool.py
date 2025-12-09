@@ -73,7 +73,7 @@ def process_bulk_letter(invoice_list):
             frappe.db.set_value(
                 "Letter Creation Item", row.get("name"), "response", success_msg
             )
-        except Exception as e:
+        except Exception:
             frappe.log_error("process_bulk_letter", str(frappe.get_traceback()))
             frappe.db.set_value(
                 "Letter Creation Item", row.get("name"), "response", failed_msg

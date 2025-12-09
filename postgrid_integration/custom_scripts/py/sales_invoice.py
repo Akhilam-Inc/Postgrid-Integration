@@ -3,7 +3,7 @@ import json
 import frappe
 from frappe import _
 from frappe.contacts.doctype.address.address import get_address_display
-from frappe.utils import get_link_to_form, get_url_to_list
+from frappe.utils import get_link_to_form
 
 from postgrid_integration.constants import is_postgrid_enabled
 from postgrid_integration.utils import check_print_format_mapped

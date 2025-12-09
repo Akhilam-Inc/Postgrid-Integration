@@ -1,4 +1,3 @@
-from . import __version__ as app_version
 
 app_name = "postgrid_integration"
 app_title = "Postgrid Integration"
