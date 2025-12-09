@@ -31,14 +31,14 @@ app_license = "MIT"
 # include js in doctype views
 # doctype_js = {"doctype" : "public/js/doctype.js"}
 doctype_js = {
-	"Purchase Invoice" : "custom_scripts/js/purchase_invoice.js",
-	"Sales Invoice" : "custom_scripts/js/sales_invoice.js",
-	"Payment Entry" : "custom_scripts/js/payment_entry.js",
+    "Purchase Invoice": "custom_scripts/js/purchase_invoice.js",
+    "Sales Invoice": "custom_scripts/js/sales_invoice.js",
+    "Payment Entry": "custom_scripts/js/payment_entry.js",
 }
 doctype_list_js = {
-						"Purchase Invoice" : "custom_scripts/js/purchase_invoice_list.js",
-						"Sales Invoice" : "custom_scripts/js/sales_invoice_list.js"
-				}
+    "Purchase Invoice": "custom_scripts/js/purchase_invoice_list.js",
+    "Sales Invoice": "custom_scripts/js/sales_invoice_list.js",
+}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
 
@@ -50,7 +50,7 @@ doctype_list_js = {
 
 # website user home page (by Role)
 # role_home_page = {
-#	"Role": "home_page"
+# "Role": "home_page"
 # }
 
 # Generators
@@ -58,29 +58,32 @@ doctype_list_js = {
 
 # automatically create page for each record of this doctype
 # website_generators = ["Web Page"]
-fixtures=[
-	
-	 
-	{"dt": "Custom Field", "filters": [
-		[
-			"name", "in", [
-				"Purchase Invoice-custom_postgrid_cheque_reference","Payment Entry-custom_postgrid_cheque_reference",
-				"Payment Entry-custom_postgrid_cheque_status","Bank Account-custom_postgrid_bank_account_id",
-				"Sales Invoice-custom_postgrid_letter_file", "Sales Invoice-custom_postgrid_letter_reference"
-			]
-		]
-	]},
-		
-
-
+fixtures = [
+    {
+        "dt": "Custom Field",
+        "filters": [
+            [
+                "name",
+                "in",
+                [
+                    "Purchase Invoice-custom_postgrid_cheque_reference",
+                    "Payment Entry-custom_postgrid_cheque_reference",
+                    "Payment Entry-custom_postgrid_cheque_status",
+                    "Bank Account-custom_postgrid_bank_account_id",
+                    "Sales Invoice-custom_postgrid_letter_file",
+                    "Sales Invoice-custom_postgrid_letter_reference",
+                ],
+            ]
+        ],
+    },
 ]
 # Jinja
 # ----------
 
 # add methods and filters to jinja environment
 # jinja = {
-#	"methods": "postgrid_integration.utils.jinja_methods",
-#	"filters": "postgrid_integration.utils.jinja_filters"
+# "methods": "postgrid_integration.utils.jinja_methods",
+# "filters": "postgrid_integration.utils.jinja_filters"
 # }
 
 # Installation
@@ -122,11 +125,11 @@ fixtures=[
 # Permissions evaluated in scripted ways
 
 # permission_query_conditions = {
-#	"Event": "frappe.desk.doctype.event.event.get_permission_query_conditions",
+# "Event": "frappe.desk.doctype.event.event.get_permission_query_conditions",
 # }
 #
 # has_permission = {
-#	"Event": "frappe.desk.doctype.event.event.has_permission",
+# "Event": "frappe.desk.doctype.event.event.has_permission",
 # }
 
 # DocType Class
@@ -134,7 +137,7 @@ fixtures=[
 # Override standard doctype classes
 
 # override_doctype_class = {
-#	"ToDo": "custom_app.overrides.CustomToDo"
+# "ToDo": "custom_app.overrides.CustomToDo"
 # }
 
 # Document Events
@@ -142,33 +145,33 @@ fixtures=[
 # Hook on document methods and events
 
 doc_events = {
-	"Purchase Invoice": {
-		"before_submit": "postgrid_integration.custom_scripts.py.purchase_invoice.before_submit",
-	},
-	"Sales Invoice": {
-		"before_submit": "postgrid_integration.custom_scripts.py.sales_invoice.before_submit",
-	}
+    "Purchase Invoice": {
+        "before_submit": "postgrid_integration.custom_scripts.py.purchase_invoice.before_submit",
+    },
+    "Sales Invoice": {
+        "before_submit": "postgrid_integration.custom_scripts.py.sales_invoice.before_submit",
+    },
 }
 
 # Scheduled Tasks
 # ---------------
 
 scheduler_events = {
-	# "all": [
-	# 	"postgrid_integration.tasks.all"
-	# ],
-	"daily": [
-		"postgrid_integration.postgrid_integration.doctype.postgrid_log.postgrid_log.delete_postgrid_log"
-	],
-	# "hourly": [
-	# 	"postgrid_integration.tasks.hourly"
-	# ],
-	# "weekly": [
-	# 	"postgrid_integration.tasks.weekly"
-	# ],
-	# "monthly": [
-	# 	"postgrid_integration.tasks.monthly"
-	# ],
+    # "all": [
+    # 	"postgrid_integration.tasks.all"
+    # ],
+    "daily": [
+        "postgrid_integration.postgrid_integration.doctype.postgrid_log.postgrid_log.delete_postgrid_log"
+    ],
+    # "hourly": [
+    # 	"postgrid_integration.tasks.hourly"
+    # ],
+    # "weekly": [
+    # 	"postgrid_integration.tasks.weekly"
+    # ],
+    # "monthly": [
+    # 	"postgrid_integration.tasks.monthly"
+    # ],
 }
 
 # Testing
@@ -180,14 +183,14 @@ scheduler_events = {
 # ------------------------------
 #
 # override_whitelisted_methods = {
-#	"frappe.desk.doctype.event.event.get_events": "postgrid_integration.event.get_events"
+# "frappe.desk.doctype.event.event.get_events": "postgrid_integration.event.get_events"
 # }
 #
 # each overriding function accepts a `data` argument;
 # generated from the base implementation of the doctype dashboard,
 # along with any modifications made in other Frappe apps
 # override_doctype_dashboards = {
-#	"Task": "postgrid_integration.task.get_dashboard_data"
+# "Task": "postgrid_integration.task.get_dashboard_data"
 # }
 
 # exempt linked doctypes from being automatically cancelled
@@ -213,29 +216,29 @@ scheduler_events = {
 # --------------------
 
 # user_data_fields = [
-#	{
-#		"doctype": "{doctype_1}",
-#		"filter_by": "{filter_by}",
-#		"redact_fields": ["{field_1}", "{field_2}"],
-#		"partial": 1,
-#	},
-#	{
-#		"doctype": "{doctype_2}",
-#		"filter_by": "{filter_by}",
-#		"partial": 1,
-#	},
-#	{
-#		"doctype": "{doctype_3}",
-#		"strict": False,
-#	},
-#	{
-#		"doctype": "{doctype_4}"
-#	}
+# {
+# "doctype": "{doctype_1}",
+# "filter_by": "{filter_by}",
+# "redact_fields": ["{field_1}", "{field_2}"],
+# "partial": 1,
+# },
+# {
+# "doctype": "{doctype_2}",
+# "filter_by": "{filter_by}",
+# "partial": 1,
+# },
+# {
+# "doctype": "{doctype_3}",
+# "strict": False,
+# },
+# {
+# "doctype": "{doctype_4}"
+# }
 # ]
 
 # Authentication and authorization
 # --------------------------------
 
 # auth_hooks = [
-#	"postgrid_integration.auth.validate"
+# "postgrid_integration.auth.validate"
 # ]
