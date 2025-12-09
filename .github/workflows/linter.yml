@@ -68,5 +68,13 @@ jobs:
       - name: Install and run pip-audit
         run: |
           pip install pip-audit
-          cd ${GITHUB_WORKSPACE}
-          pip-audit --desc on .
+          echo "Checking for dependency files..."
+          if [ -f "requirements.txt" ]; then
+            echo "Found requirements.txt, running audit..."
+            pip-audit --desc on -r requirements.txt
+          elif [ -f "pyproject.toml" ] || [ -f "setup.py" ]; then
+            echo "Found project definition, running audit..."
+            pip-audit --desc on .
+          else
+            echo "No requirements.txt, pyproject.toml, or setup.py found. Skipping dependency audit."
+          fi
