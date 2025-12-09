@@ -1,4 +1,3 @@
-
 app_name = "postgrid_integration"
 app_title = "Postgrid Integration"
 app_publisher = "Akhilam Inc."
